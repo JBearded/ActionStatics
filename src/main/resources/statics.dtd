@@ -1,0 +1,18 @@
+<!ELEMENT static (config,schedulers)>
+<!ELEMENT config (from,to,max-thread)>
+<!ELEMENT from ANY>
+<!ELEMENT to ANY>
+<!ELEMENT max-thread ANY>
+<!ELEMENT schedulers (scheduler*)>
+<!ELEMENT scheduler (job*)>
+<!ELEMENT job EMPTY>
+<!ATTLIST scheduler
+        delay CDATA #REQUIRED
+        interval CDATA #REQUIRED
+        timeout CDATA #REQUIRED
+        name CDATA #REQUIRED
+        >
+<!ATTLIST job
+        action CDATA #REQUIRED
+        file CDATA #REQUIRED
+        >
