@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<static>
+    <config>
+        <from>http://www.yy.com</from>
+        <to>D:/play/</to>
+        <max-thread>20</max-thread>
+    </config>
+    <schedulers>
+        <scheduler delay="5" interval="5" timeout="120" name="html_scheduler">
+            <job action="/show/index/index.action" file="index.html"></job>
+
+        </scheduler>
+        <scheduler delay="10" interval="10" timeout="120" name="json_scheduler">
+            <job action="/ent/index/pageLive.action?serv=3&amp;id=17&amp;page=17" file="page.json"></job>
+        </scheduler>
+    </schedulers>
+</static>
