@@ -2,15 +2,14 @@ package com.jstatic.conf;
 
 import com.jstatic.conf.element.*;
 import com.jstatic.util.RegularUtil;
+import com.sun.org.apache.xerces.internal.impl.Constants;
 import org.dom4j.Attribute;
 import org.dom4j.Document;
-import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,16 +28,22 @@ public class StaticConfigParser{
     private static final int DEFAULT_DELAY_SECONDS = 60;
     private static final int DEFAULT_INTERVAL_SECONDS = 120;
 
-    public StaticElement parse(String configFileName) throws DocumentException {
+    public StaticElement parse(String configFileName){
         Element root = getRoot(configFileName);
         return parseStaticElement(root);
     }
 
-    private Element getRoot(String configFileName) throws DocumentException {
-        SAXReader reader = new SAXReader();
-        URL url = ClassLoader.getSystemResource(configFileName);
-        Document document = reader.read(url);
-        Element root = document.getRootElement();
+    private Element getRoot(String configFileName){
+        Element root = null;
+        try{
+            SAXReader reader = new SAXReader();
+            reader.setFeature(Constants.XERCES_FEATURE_PREFIX + Constants.LOAD_EXTERNAL_DTD_FEATURE, false);
+            String url = ClassLoader.getSystemResource(configFileName).getPath();
+            Document document = reader.read(url.substring(1));
+            root = document.getRootElement();
+        }catch (Exception e){
+            logger.error("error to load xml {}", configFileName, e);
+        }
         return root;
     }
 
