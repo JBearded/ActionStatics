@@ -17,7 +17,7 @@ public enum AttributeConstant {
 
     private final String a;
 
-    private AttributeConstant(String a) {
+    AttributeConstant(String a) {
         this.a = a;
     }
 

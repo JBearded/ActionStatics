@@ -31,15 +31,14 @@ import java.util.*;
 public class HttpClient {
 
 	private final PoolingHttpClientConnectionManager manager = new PoolingHttpClientConnectionManager();
-	private final Object lock = new Object();
 
 	private int MAX_TOTAL = 4;
 
-	private int KEEP_ALIVE_MILSECONDS = 1000 * 60;
+	private int KEEP_ALIVE_MS = 1000 * 60;
 
-	private int SOCKET_TIMEOUT_MSECONDS = 1000 * 10;
-	private int CONNECTION_TIMOUT_MSECONDS = 1000 * 10;
-	private int REQUEST_TIMEOUT_MSECONDS = 1000 * 10;
+	private int SOCKET_TIMEOUT_MS = 1000 * 10;
+	private int CONNECTION_TIMEOUT_MS = 1000 * 10;
+	private int REQUEST_TIMEOUT_MS = 1000 * 10;
 
 	private int HTTP_RETRY_TIMES = 3;
 
@@ -55,7 +54,7 @@ public class HttpClient {
 
 
 	public String post(String uri) throws Exception {
-		return post(uri, null, REQUEST_TIMEOUT_MSECONDS);
+		return post(uri, null, REQUEST_TIMEOUT_MS);
 	}
 
 	public String post(String uri, int timeoutMs) throws Exception {
@@ -63,7 +62,7 @@ public class HttpClient {
 	}
 
 	public String post(String uri, Map<String, String> params) throws Exception {
-		return post(uri, params, REQUEST_TIMEOUT_MSECONDS);
+		return post(uri, params, REQUEST_TIMEOUT_MS);
 	}
 
 	public String post(String uri, Map<String, String> params, int timeoutMs) throws Exception{
@@ -76,7 +75,7 @@ public class HttpClient {
 	}
 
 	public String get(String uri) throws Exception {
-		return get(uri, null, REQUEST_TIMEOUT_MSECONDS);
+		return get(uri, null, REQUEST_TIMEOUT_MS);
 	}
 
 	public String get(String uri, int timeoutMs) throws Exception {
@@ -84,7 +83,7 @@ public class HttpClient {
 	}
 
 	public String get(String uri, Map<String, String> params) throws Exception {
-		return post(uri, params, REQUEST_TIMEOUT_MSECONDS);
+		return post(uri, params, REQUEST_TIMEOUT_MS);
 	}
 
 	public String get(String uri, Map<String, String> params, int timeout) throws Exception{
@@ -141,7 +140,7 @@ public class HttpClient {
 		@Override
 		public long getKeepAliveDuration(HttpResponse arg0, HttpContext arg1) {
 			
-			return KEEP_ALIVE_MILSECONDS;
+			return KEEP_ALIVE_MS;
 		}
 	}
 	
@@ -182,8 +181,8 @@ public class HttpClient {
 	private void setRequestTimeoutMs(HttpRequestBase request, int timeoutMs) {
 
 		RequestConfig config = RequestConfig.custom()
-				.setSocketTimeout(SOCKET_TIMEOUT_MSECONDS)
-				.setConnectTimeout(CONNECTION_TIMOUT_MSECONDS)
+				.setSocketTimeout(SOCKET_TIMEOUT_MS)
+				.setConnectTimeout(CONNECTION_TIMEOUT_MS)
 				.setConnectionRequestTimeout(timeoutMs)
 				.setCookieSpec(CookieSpecs.IGNORE_COOKIES)
 				.build();
@@ -200,14 +199,14 @@ public class HttpClient {
 	}
 
 	public void setConnectionTimoutMseconds(int connectionTimeoutMs) {
-		CONNECTION_TIMOUT_MSECONDS = connectionTimeoutMs;
+		CONNECTION_TIMEOUT_MS = connectionTimeoutMs;
 	}
 
 	public void setKeepAliveMilseconds(int keepAliveMs) {
-		KEEP_ALIVE_MILSECONDS = keepAliveMs;
+		KEEP_ALIVE_MS = keepAliveMs;
 	}
 
 	public void setRequestTimeoutMseconds(int requestTimeoutMs) {
-		REQUEST_TIMEOUT_MSECONDS = requestTimeoutMs;
+		REQUEST_TIMEOUT_MS = requestTimeoutMs;
 	}
 }
